@@ -150,9 +150,36 @@ body,html{width:100%;height:100%;overflow:hidden;font-family:'Montserrat',sans-s
 .swipe-hint svg{width:12px;height:12px;fill:var(--rose-dark);animation:bounce-x 1.2s infinite}
 @keyframes bounce-x{0%,100%{transform:translateX(0)}50%{transform:translateX(-4px)}}
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+/* POPUP XÁC NHẬN */
+.rsvp-overlay{position:fixed;inset:0;z-index:1000;display:flex;justify-content:center;align-items:center;padding:20px;
+  background:rgba(120,20,70,.62);opacity:0;pointer-events:none;transition:opacity .4s ease}
+.rsvp-overlay.show{opacity:1;pointer-events:auto}
+.rsvp-box{position:relative;width:100%;max-width:320px;padding:34px 24px 26px;text-align:center;color:var(--text-main);
+  background:linear-gradient(180deg,#fff 0%,var(--cream) 50%,var(--blush) 100%);
+  border:3px solid var(--gold);border-radius:24px;box-shadow:0 20px 50px rgba(160,31,90,.5);
+  transform:scale(.6) translateY(40px);transition:transform .6s cubic-bezier(.2,1.4,.4,1);overflow:hidden}
+.rsvp-overlay.show .rsvp-box{transform:scale(1) translateY(0)}
+.rsvp-box::before{content:'';position:absolute;inset:7px;border:1px dashed var(--gold);border-radius:18px;pointer-events:none}
+.rsvp-icon{font-size:3rem;animation:cap-heartbeat 1.4s infinite ease-in-out}
+.rsvp-title{font-family:'Great Vibes',cursive;font-size:2.4rem;color:var(--rose-dark);line-height:1.1;margin:6px 0 10px}
+.rsvp-text{font-size:.9rem;line-height:1.6;font-weight:600;font-style:italic;position:relative}
+.rsvp-close{margin-top:18px;background:linear-gradient(135deg,var(--rose),var(--rose-deep));color:#fff;border:2px solid var(--gold-light);
+  padding:9px 28px;border-radius:25px;font-size:.8rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;box-shadow:0 4px 15px var(--shadow-pink);position:relative}
+.rsvp-fall{position:absolute;top:-20px;font-size:1.1rem;pointer-events:none;will-change:transform,opacity;animation:rsvp-fall 3s linear forwards}
+@keyframes rsvp-fall{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,420px,0);opacity:0}}
+.rsvp-box{will-change:transform}
+body.rsvp-open .fireworks-container,body.rsvp-open .book-stage *{animation-play-state:paused!important}
 </style>
 </head>
 <body>
+  <div class="rsvp-overlay" id="rsvpOverlay">
+  <div class="rsvp-box" id="rsvpBox">
+    <div class="rsvp-icon">👑</div>
+    <div class="rsvp-title">Cảm ơn bạn!</div>
+    <p class="rsvp-text">Lời xác nhận của bạn đã được gửi tới Huỳnh Như. Hẹn gặp bạn trong ngày lễ tốt nghiệp của Như nhé! 🌸</p>
+    <button class="rsvp-close" onclick="closeRsvp()">Đóng</button>
+  </div>
+</div>
   <audio id="bgMusic" loop>
     <source src="./music/nhac-nen.mp3" type="audio/mpeg">
   </audio>
@@ -241,18 +268,18 @@ body,html{width:100%;height:100%;overflow:hidden;font-family:'Montserrat',sans-s
         <div class="event-card-large">
           <div class="event-item-large">
             <div class="event-icon-large"><svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg></div>
-            <div class="event-info-large"><h4>Thời gian</h4><p>09:00 AM — 13/11/2026</p></div>
+            <div class="event-info-large"><h4>Thời gian</h4><p>09:30 AM — 13/11/2026</p></div>
           </div>
           <div class="event-item-large">
             <div class="event-icon-large"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
-            <div class="event-info-large"><h4>Địa điểm</h4><p>Hutech E Campus</p></div>
+            <div class="event-info-large"><h4>Địa điểm</h4><p>Hutech Thủ Đức</p></div>
           </div>
           <div class="event-item-large">
             <div class="event-icon-large"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
             <div class="event-info-large"><h4>Trang phục</h4><p>Lịch sự, trang nhã</p></div>
           </div>
         </div>
-        <p style="font-size:.95rem;color:var(--rose-dark);font-weight:800;margin-top:5px">Rất hân hạnh được đón tiếp <br> Quý khách! 🌸</p>
+        <p style="font-size:.95rem;color:var(--rose-dark);font-weight:500;margin-top:5px">🌸 Rất hân hạnh được đón tiếp 🌸 <br> Khi đến xin vui lòng liên hệ qua <br> <strong style="font-weight:800">SĐT: 0768711693 - Dương</strong></p>
         <div class="nav-indicator">
           <div class="page-dots"><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div>
           <div class="swipe-hint"><svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg> Vuốt trái để lật</div>
@@ -271,7 +298,7 @@ body,html{width:100%;height:100%;overflow:hidden;font-family:'Montserrat',sans-s
         </div>
         <div class="thank-you-box"><p>"Sự có mặt của mọi người trong ngày lễ tốt nghiệp này chính là niềm vui lớn nhất và là món quà vô giá dành cho Huỳnh Như. <br>Cảm ơn vì đã luôn đồng hành và ủng hộ Như trên suốt chặng đường qua!"</p></div>
         <div style="font-family:'Great Vibes',cursive;color:var(--rose-dark);font-size:1.9rem">Nguyễn Thị Huỳnh Như</div>
-        <button class="btn-rsvp" onclick="alert('Cảm ơn bạn đã tham dự lễ tốt nghiệp của Nguyễn Thị Huỳnh Như!')">Xác nhận tham dự</button>
+        <button class="btn-rsvp" onclick="openRsvp()">Xác nhận tham dự</button>
         <div class="nav-indicator" style="flex-direction:column;gap:6px">
           <div class="page-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div></div>
           <div class="swipe-hint" style="font-size:.68rem">Vuốt phải để xem lại <svg viewBox="0 0 24 24" style="transform:scaleX(-1)"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></div>
@@ -362,6 +389,24 @@ window.addEventListener('pointercancel',()=>down=false);
 document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1)});
 
 window.onload=function(){createFireworks();fillRibbons();createFloatingHearts()};
+
+function openRsvp(){
+  id('rsvpOverlay').classList.add('show');
+  document.body.classList.add('rsvp-open');
+  const box=id('rsvpBox'),icons=['💖','🌸','💗','✨','🌷'],frag=document.createDocumentFragment(),list=[];
+  for(let i=0;i<12;i++){
+    const e=document.createElement('div');e.className='rsvp-fall';
+    e.textContent=icons[i%icons.length];e.style.left=(5+Math.random()*90)+'%';
+    e.style.animationDelay=(i*0.12)+'s';e.style.animationDuration=(2.4+Math.random())+'s';
+    frag.appendChild(e);list.push(e);
+  }
+  box.appendChild(frag);
+  setTimeout(()=>list.forEach(e=>e.remove()),4500);
+}
+function closeRsvp(){
+  id('rsvpOverlay').classList.remove('show');
+  document.body.classList.remove('rsvp-open');
+}
 </script>
 </body>
 </html>
